@@ -1,130 +1,106 @@
 'use client';
-import PropertyCard from '@/components/PropertyCard';
-import BottomFilterBar from '@/components/BottomFilterBar';
-import PageSkeleton from '@/components/PageSkeleton';
-import { useState, useEffect } from 'react';
-import { FiSearch } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import './globals.css';
 
-const featuredProperties = [
-	{
-		id: 1,
-		name: 'Villa Private Pool, Bali',
-		image: '/images/home.avif',
-		rating: '4.32',
-		price3Days: 500000,
-		price1Week: 1200000,
-		price2Weeks: 2000000,
-	},
-	{
-		id: 2,
-		name: 'Apartment Studio Jakarta Selatan',
-		image: '/images/home.avif',
-		rating: '4.85',
-		price3Days: 350000,
-		price1Week: 900000,
-		price2Weeks: 1600000,
-	},
-	{
-		id: 3,
-		name: 'Rumah Modern Minimalis Surabaya',
-		image: '/images/home.avif',
-		rating: '4.80',
-		price3Days: 400000,
-		price1Week: 1250000,
-		price2Weeks: 2100000,
-	},
-	{
-		id: 4,
-		name: 'Kost Eksklusif Depok',
-		image: '/images/home.avif',
-		rating: '4.70',
-		price3Days: 250000,
-		price1Week: 700000,
-		price2Weeks: 1200000,
-	},
-	{
-		id: 5,
-		name: 'Guesthouse Jogja Tengah Kota',
-		image: '/images/home.avif',
-		rating: '4.88',
-		price3Days: 300000,
-		price1Week: 1100000,
-		price2Weeks: 1800000,
-	},
-	{
-		id: 6,
-		name: 'Rumah Keluarga Bandung Utara',
-		image: '/images/home.avif',
-		rating: '4.95',
-		price3Days: 450000,
-		price1Week: 1350000,
-		price2Weeks: 2200000,
-	},
-];
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.25,
+      delayChildren: 0.2,
+      ease: 'easeOut',
+    },
+  },
+};
 
-export default function Home() {
-	const [search, setSearch] = useState('');
-	const [price, setPrice] = useState([0, 2200000]);
-	const [rating, setRating] = useState('');
-	const [isLoading, setIsLoading] = useState(true);
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: 'easeOut',
+    },
+  },
+};
 
-	useEffect(() => {
-		const t = setTimeout(() => setIsLoading(false), 1200);
-		return () => clearTimeout(t);
-	}, []);
+export default function LandingPage() {
+  const router = useRouter();
 
-	const filtered = featuredProperties.filter((p) => {
-		const minPrice = Math.min(p.price3Days, p.price1Week, p.price2Weeks);
-		const maxPrice = Math.max(p.price3Days, p.price1Week, p.price2Weeks);
-		const matchName = p.name.toLowerCase().includes(search.toLowerCase());
-		const matchPrice = maxPrice >= price[0] && minPrice <= price[1];
-		const matchRating = rating ? Number(p.rating) >= Number(rating) : true;
-		return matchName && matchPrice && matchRating;
-	});
+  return (
+    <motion.div
+      initial={{ backgroundPosition: '0% 50%', opacity: 0.9 }}
+      animate={{
+        backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+        opacity: [0.9, 1, 0.9],
+      }}
+      transition={{
+        duration: 15,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+      style={{
+        backgroundImage: 'radial-gradient(circle at center, #0a0f2c, #001f3f, #003B72)',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '200% 200%',
+        backgroundPosition: '0% 50%',
+      }}
+      className="relative flex flex-col items-center justify-center min-h-screen w-full text-white overflow-hidden"
+    >
+      {/* Floating Icon */}
+      <motion.div
+        className="absolute top-10 right-10 text-white text-5xl opacity-30"
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        🌊
+      </motion.div>
 
-	if (isLoading) return <PageSkeleton />;
+      {/* Glass Blur Layer */}
+      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm z-0" />
 
-	return (
-		<main className="py-6 pb-24">
-			<div className="grid grid-cols-1 gap-6 py-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-				{filtered.length === 0 ? (
-					<div className="col-span-full flex flex-col items-center justify-center py-24">
-						<motion.div
-							className="bg-primary/10 rounded-full p-6 mb-4"
-							animate={{
-								rotate: [0, 0, -20, 15, 0, 10, -10, 0, 0],
-								y: [0, 0, -8, 0, 8, 0, -6, 0, 0],
-								x: [0, 0, 18, -18, 12, -12, 0, 0, 0],
-							}}
-							transition={{
-								duration: 5,
-								times: [0, 0.08, 0.18, 0.32, 0.5, 0.68, 0.82, 0.92, 1],
-								repeat: Infinity,
-								ease: 'easeInOut',
-							}}
-						>
-							<FiSearch className="text-primary" size={56} />
-						</motion.div>
-						<h2 className="text-xl font-semibold mb-2 text-gray-700">
-							Tidak ada hasil ditemukan
-						</h2>
-						<p className="text-gray-500 text-center max-w-md">
-							Coba kata kunci lain, atur ulang filter harga, atau pilih rating yang
-							berbeda.
-						</p>
-					</div>
-				) : (
-					filtered.map((property) => (
-						<PropertyCard key={property.id} property={property} />
-					))
-				)}
-			</div>
-			<BottomFilterBar
-				onSearch={setSearch}
-				onPriceChange={setPrice}
-				onRatingChange={setRating}
-			/>
-		</main>
-	);
+      {/* Content Layer */}
+      <div className="z-10 flex flex-col items-center">
+        <motion.div variants={itemVariants} initial="hidden" animate="show">
+          <img
+            src="/images/weekgo_logo.svg"
+            alt="WeekGo Logo"
+            className="w-48 h-auto mb-8 transform transition-transform duration-500 hover:scale-110"
+          />
+        </motion.div>
+
+        <motion.p
+          variants={itemVariants}
+          className="text-lg text-center mb-8 px-6 max-w-lg text-white"
+        >
+          WeekGo adalah platform penyewaan penginapan jangka menengah yang memberikan kemudahan dan fleksibilitas harga dengan sistem mingguan. Temukan penginapan yang sesuai dengan kebutuhan Anda!
+        </motion.p>
+
+        <motion.div variants={itemVariants} className="flex space-x-6">
+          <button
+            onClick={() => router.push('/guest-home')}
+            style={{
+              backgroundImage: 'linear-gradient(to right, #00B5E2,rgb(5, 126, 156))',
+            }}
+            className="text-white px-8 py-4 rounded-xl text-lg shadow-xl transform transition-transform duration-300 hover:scale-105 hover:brightness-110"
+          >
+            Guest
+          </button>
+
+          <button
+            onClick={() => router.push('/host-feature')}
+            style={{
+              backgroundImage: 'linear-gradient(to right, #00B5E2, rgb(5, 126, 156))',
+            }}
+            className="text-white px-8 py-4 rounded-xl text-lg shadow-xl transform transition-transform duration-300 hover:scale-105 hover:brightness-110"
+          >
+            Host
+          </button>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
 }

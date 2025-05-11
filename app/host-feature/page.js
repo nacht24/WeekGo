@@ -32,15 +32,7 @@ export default function HostFeaturePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <div className="bg-white text-blue-800 flex justify-between items-center p-4">
-        <img
-          src="/images/weekgo_logo_horizontal.svg"
-          alt="WeekGo Logo"
-          className="w-48 h-auto"
-        />
-        <h1 className="text-2xl font-semibold">Host</h1>
-      </div>
+     
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center bg-gradient-to-br from-blue-300 to-blue-700 text-gray-600 p-8 flex-1">
@@ -75,7 +67,7 @@ export default function HostFeaturePage() {
                 {photos[0] && (
                   <img src={photos[0]} className="w-full h-full object-cover" alt="Foto 1" />
                 )}
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                <div className="absolute inset-0 bg-gray-300 bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                   <span className="text-white text-4xl font-bold">+</span>
                 </div>
               </label>
@@ -101,7 +93,7 @@ export default function HostFeaturePage() {
                 {photos[1] && (
                   <img src={photos[1]} className="w-full h-full object-cover" alt="Foto 2" />
                 )}
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                <div className="absolute inset-0 bg-gray-300 bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                   <span className="text-white text-4xl font-bold">+</span>
                 </div>
               </label>
@@ -126,11 +118,11 @@ export default function HostFeaturePage() {
                   <img src={photos[2]} className="w-full h-full object-cover" alt="Foto 3" />
                 )}
                 {photos.length > 3 && (
-                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-sm px-2 py-1 rounded-md">
+                  <div className="absolute bottom-2 right-2 bg-gray-300 bg-opacity-80 text-white text-sm px-2 py-1 rounded-md">
                     +{photos.length - 3}
                   </div>
                 )}
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                <div className="absolute inset-0 bg-gray-300 bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                   <span className="text-white text-4xl font-bold">+</span>
                 </div>
               </label>

@@ -77,9 +77,9 @@ export default function Navbar() {
           {/* User Profile */}
           <div className="flex items-center gap-3 bg-primary/10 px-3 py-1 rounded-full shadow-sm">
             <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow">
-              HP
+              WG
             </div>
-            <span className="font-medium text-gray-700 text-base select-none">Hamzah Permata</span>
+            <span className="font-medium text-gray-700 text-base select-none">WeekGo</span>
           </div>
         </motion.div>
       </div>

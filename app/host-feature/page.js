@@ -7,21 +7,23 @@ export default function HostFeaturePage() {
   const [price3Days, setPrice3Days] = useState('');
   const [price1Week, setPrice1Week] = useState('');
   const [price2Weeks, setPrice2Weeks] = useState('');
-  const [photo, setPhoto] = useState(null);
+  const [photos, setPhotos] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handlePhotoChange = (e) => {
-    setPhoto(URL.createObjectURL(e.target.files[0]));
-  };
-
   const handleSubmit = () => {
-    if (!propertyName || !description || !price3Days || !price1Week || !price2Weeks || !photo) {
-      alert('Silakan lengkapi semua field dan unggah foto.');
+    if (
+      !propertyName ||
+      !description ||
+      !price3Days ||
+      !price1Week ||
+      !price2Weeks ||
+      photos.length === 0
+    ) {
+      alert('Silakan lengkapi semua field dan unggah minimal satu foto.');
       return;
     }
 
     setIsSubmitting(true);
-    // Simulate form submission
     setTimeout(() => {
       alert('Fitur berhasil disimpan!');
       setIsSubmitting(false);
@@ -30,7 +32,7 @@ export default function HostFeaturePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Bagian Atas: Navbar dengan Logo dan Teks Host */}
+      {/* Header */}
       <div className="bg-white text-blue-800 flex justify-between items-center p-4">
         <img
           src="/images/weekgo_logo_horizontal.svg"
@@ -40,32 +42,102 @@ export default function HostFeaturePage() {
         <h1 className="text-2xl font-semibold">Host</h1>
       </div>
 
-      {/* Bagian Konten dengan Background Gradien Biru */}
+      {/* Main Content */}
       <div className="flex flex-col items-center justify-center bg-gradient-to-br from-blue-300 to-blue-700 text-gray-600 p-8 flex-1">
-        
-        {/* Deskripsi Fitur */}
         <p className="text-lg text-center mb-8 px-6 max-w-lg text-gray-800">
           Di halaman ini, Anda dapat mengelola properti Anda, melihat pendapatan, menerima notifikasi, dan memverifikasi status host. Fitur ini sedang dalam pengembangan dan belum dapat diakses.
         </p>
 
-        {/* Form Input untuk Host */}
+        {/* Form */}
         <div className="w-full max-w-lg bg-gray-200 p-8 rounded-xl">
-          {/* Input Foto */}
+          {/* Foto Properti Grid */}
           <div className="mb-6">
-          <h3 className="text-2xl font-semibold mb-4">Foto Properti</h3>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handlePhotoChange}
-              className="border p-2 rounded-md w-full"
-            />
-            {photo && (
-              <div className="mt-4 w-48 h-48 overflow-hidden">
-                <img src={photo} alt="Property" className="w-full h-full object-cover rounded-xl" />
-              </div>
-            )}
+            <h3 className="text-2xl font-semibold mb-4">Foto Properti</h3>
+            <div className="grid grid-cols-3 grid-rows-2 gap-2 h-72 border-2 border-dashed border-gray-400 rounded-xl p-2">
+              {/* Foto 1 – Besar kiri */}
+              <label className="relative col-span-2 row-span-2 overflow-hidden rounded-xl cursor-pointer group border border-gray-300">
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const newPhoto = URL.createObjectURL(file);
+                      setPhotos((prev) => {
+                        const updated = [...prev];
+                        updated[0] = newPhoto;
+                        return updated;
+                      });
+                    }
+                  }}
+                />
+                {photos[0] && (
+                  <img src={photos[0]} className="w-full h-full object-cover" alt="Foto 1" />
+                )}
+                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                  <span className="text-white text-4xl font-bold">+</span>
+                </div>
+              </label>
+
+              {/* Foto 2 – Kanan atas */}
+              <label className="relative col-span-1 row-span-1 overflow-hidden rounded-xl cursor-pointer group border border-gray-300">
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const newPhoto = URL.createObjectURL(file);
+                      setPhotos((prev) => {
+                        const updated = [...prev];
+                        updated[1] = newPhoto;
+                        return updated;
+                      });
+                    }
+                  }}
+                />
+                {photos[1] && (
+                  <img src={photos[1]} className="w-full h-full object-cover" alt="Foto 2" />
+                )}
+                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                  <span className="text-white text-4xl font-bold">+</span>
+                </div>
+              </label>
+
+              {/* Foto 3 – Kanan bawah, bisa upload multiple */}
+              <label className="relative col-span-1 row-span-1 overflow-hidden rounded-xl cursor-pointer group border border-gray-300">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files).slice(0, 8);
+                    const newUrls = files.map((file) => URL.createObjectURL(file));
+                    setPhotos((prev) => {
+                      const keep = prev.slice(0, 2);
+                      return [...keep, ...newUrls].slice(0, 10);
+                    });
+                  }}
+                />
+                {photos[2] && (
+                  <img src={photos[2]} className="w-full h-full object-cover" alt="Foto 3" />
+                )}
+                {photos.length > 3 && (
+                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-sm px-2 py-1 rounded-md">
+                    +{photos.length - 3}
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                  <span className="text-white text-4xl font-bold">+</span>
+                </div>
+              </label>
+            </div>
           </div>
 
+          {/* Nama Properti */}
           <h3 className="text-2xl font-semibold mb-4">Nama Properti</h3>
           <input
             type="text"
@@ -75,6 +147,7 @@ export default function HostFeaturePage() {
             onChange={(e) => setPropertyName(e.target.value)}
           />
 
+          {/* Deskripsi */}
           <h3 className="text-2xl font-semibold mb-4">Deskripsi</h3>
           <textarea
             placeholder="Masukkan deskripsi properti"
@@ -83,6 +156,7 @@ export default function HostFeaturePage() {
             onChange={(e) => setDescription(e.target.value)}
           />
 
+          {/* Durasi dan Harga */}
           <h3 className="text-2xl font-semibold mb-4">Pilih Durasi</h3>
           <div className="space-y-4 mb-6">
             <div className="flex items-center gap-4">
@@ -117,8 +191,11 @@ export default function HostFeaturePage() {
             </div>
           </div>
 
+          {/* Tombol Submit */}
           <button
-            className={`bg-blue-700 text-white px-8 py-4 rounded-xl text-lg shadow-xl w-full ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : ''}`}
+            className={`bg-blue-700 text-white px-8 py-4 rounded-xl text-lg shadow-xl w-full ${
+              isSubmitting ? 'bg-gray-400 cursor-not-allowed' : ''
+            }`}
             onClick={handleSubmit}
             disabled={isSubmitting}
           >

@@ -10,50 +10,62 @@ const featuredProperties = [
 	{
 		id: 1,
 		name: 'Villa Private Pool, Bali',
-		price: '1.500.000',
 		image: '/images/home.avif',
 		rating: '4.32',
+		price3Days: 500000,
+		price1Week: 1200000,
+		price2Weeks: 2000000,
 	},
 	{
 		id: 2,
 		name: 'Apartment Studio Jakarta Selatan',
-		price: '900.000',
 		image: '/images/home.avif',
 		rating: '4.85',
+		price3Days: 350000,
+		price1Week: 900000,
+		price2Weeks: 1600000,
 	},
 	{
 		id: 3,
 		name: 'Rumah Modern Minimalis Surabaya',
-		price: '1.250.000',
 		image: '/images/home.avif',
 		rating: '4.80',
+		price3Days: 400000,
+		price1Week: 1250000,
+		price2Weeks: 2100000,
 	},
 	{
 		id: 4,
 		name: 'Kost Eksklusif Depok',
-		price: '700.000',
 		image: '/images/home.avif',
 		rating: '4.70',
+		price3Days: 250000,
+		price1Week: 700000,
+		price2Weeks: 1200000,
 	},
 	{
 		id: 5,
 		name: 'Guesthouse Jogja Tengah Kota',
-		price: '1.100.000',
 		image: '/images/home.avif',
 		rating: '4.88',
+		price3Days: 300000,
+		price1Week: 1100000,
+		price2Weeks: 1800000,
 	},
 	{
 		id: 6,
 		name: 'Rumah Keluarga Bandung Utara',
-		price: '1.350.000',
 		image: '/images/home.avif',
 		rating: '4.95',
+		price3Days: 450000,
+		price1Week: 1350000,
+		price2Weeks: 2200000,
 	},
 ];
 
 export default function Home() {
 	const [search, setSearch] = useState('');
-	const [price, setPrice] = useState([0, 2000000]);
+	const [price, setPrice] = useState([0, 2200000]);
 	const [rating, setRating] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -63,9 +75,10 @@ export default function Home() {
 	}, []);
 
 	const filtered = featuredProperties.filter((p) => {
-		const priceNum = Number(p.price.replace(/\./g, ''));
+		const minPrice = Math.min(p.price3Days, p.price1Week, p.price2Weeks);
+		const maxPrice = Math.max(p.price3Days, p.price1Week, p.price2Weeks);
 		const matchName = p.name.toLowerCase().includes(search.toLowerCase());
-		const matchPrice = priceNum >= price[0] && priceNum <= price[1];
+		const matchPrice = maxPrice >= price[0] && minPrice <= price[1];
 		const matchRating = rating ? Number(p.rating) >= Number(rating) : true;
 		return matchName && matchPrice && matchRating;
 	});

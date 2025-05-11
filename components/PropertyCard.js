@@ -6,6 +6,17 @@ import {motion} from 'framer-motion';
 export default function PropertyCard({property}) {
   const [isFavorite, setIsFavorite] = useState(false);
 
+  // Ambil harga min dan max dari property
+  // Pastikan property.price3Days, property.price1Week, property.price2Weeks ada dan bertipe number/string angka
+  const prices = [
+    Number(property.price3Days || 0),
+    Number(property.price1Week || 0),
+    Number(property.price2Weeks || 0),
+  ].filter(Boolean);
+
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+
   return (
     <motion.div
       whileHover={{scale: 1.04, boxShadow: '0 8px 24px rgba(0,0,0,0.08)'}}
@@ -39,7 +50,9 @@ export default function PropertyCard({property}) {
             <span className="ml-1">{property.rating}</span>
           </div>
         </div>
-        <p className="text-gray-500">Rp{property.price}/minggu</p>
+        <p className="text-gray-500">
+          {minPrice.toLocaleString('id-ID')} - {maxPrice.toLocaleString('id-ID')}
+        </p>
       </div>
     </motion.div>
   );

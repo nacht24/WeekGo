@@ -87,38 +87,40 @@ export default function Home() {
 
 	return (
 		<main className="py-6 pb-24">
-			<div className="grid grid-cols-1 gap-6 py-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-				{filtered.length === 0 ? (
-					<div className="col-span-full flex flex-col items-center justify-center py-24">
-						<motion.div
-							className="bg-primary/10 rounded-full p-6 mb-4"
-							animate={{
-								rotate: [0, 0, -20, 15, 0, 10, -10, 0, 0],
-								y: [0, 0, -8, 0, 8, 0, -6, 0, 0],
-								x: [0, 0, 18, -18, 12, -12, 0, 0, 0],
-							}}
-							transition={{
-								duration: 5,
-								times: [0, 0.08, 0.18, 0.32, 0.5, 0.68, 0.82, 0.92, 1],
-								repeat: Infinity,
-								ease: 'easeInOut',
-							}}
-						>
-							<FiSearch className="text-primary" size={56} />
-						</motion.div>
-						<h2 className="text-xl font-semibold mb-2 text-gray-700">
-							Tidak ada hasil ditemukan
-						</h2>
-						<p className="text-gray-500 text-center max-w-md">
-							Coba kata kunci lain, atur ulang filter harga, atau pilih rating yang
-							berbeda.
-						</p>
-					</div>
-				) : (
-					filtered.map((property) => (
-						<PropertyCard key={property.id} property={property} />
-					))
-				)}
+			<div className="container mx-auto px-4">
+				<div className="grid grid-cols-1 gap-6 py-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+					{filtered.length === 0 ? (
+						<div className="col-span-full flex flex-col items-center justify-center py-24">
+							<motion.div
+								className="bg-primary/10 rounded-full p-6 mb-4"
+								animate={{
+									rotate: [0, 0, -20, 15, 0, 10, -10, 0, 0],
+									y: [0, 0, -8, 0, 8, 0, -6, 0, 0],
+									x: [0, 0, 18, -18, 12, -12, 0, 0, 0],
+								}}
+								transition={{
+									duration: 5,
+									times: [0, 0.08, 0.18, 0.32, 0.5, 0.68, 0.82, 0.92, 1],
+									repeat: Infinity,
+									ease: 'easeInOut',
+								}}
+							>
+								<FiSearch className="text-primary" size={56} />
+							</motion.div>
+							<h2 className="text-xl font-semibold mb-2 text-gray-700">
+								Tidak ada hasil ditemukan
+							</h2>
+							<p className="text-gray-500 text-center max-w-md">
+								Coba kata kunci lain, atur ulang filter harga, atau pilih rating yang
+								berbeda.
+							</p>
+						</div>
+					) : (
+						filtered.map((property) => (
+							<PropertyCard key={property.id} property={property} />
+						))
+					)}
+				</div>
 			</div>
 			<BottomFilterBar
 				onSearch={setSearch}

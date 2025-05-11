@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import './globals.css';
+import Image from 'next/image';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -65,10 +66,13 @@ export default function LandingPage() {
       {/* Content Layer */}
       <div className="z-10 flex flex-col items-center">
         <motion.div variants={itemVariants} initial="hidden" animate="show">
-          <img
+          <Image
             src="/images/weekgo_logo.svg"
             alt="WeekGo Logo"
+            width={192} // set sesuai kebutuhan, misal 192px (w-48)
+            height={80} // sesuaikan rasio logo
             className="w-48 h-auto mb-8 transform transition-transform duration-500 hover:scale-110"
+            priority // untuk logo, supaya cepat dimuat
           />
         </motion.div>
 
@@ -85,7 +89,7 @@ export default function LandingPage() {
             style={{
               backgroundImage: 'linear-gradient(to right, #00B5E2,rgb(5, 126, 156))',
             }}
-            className="text-white px-8 py-4 rounded-xl text-lg shadow-xl transform transition-transform duration-300 hover:scale-105 hover:brightness-110"
+            className="cursor-pointer text-white px-8 py-4 rounded-xl text-lg shadow-xl transform transition-transform duration-300 hover:scale-105 hover:brightness-110"
           >
             Guest
           </button>
@@ -95,7 +99,7 @@ export default function LandingPage() {
             style={{
               backgroundImage: 'linear-gradient(to right, #00B5E2, rgb(5, 126, 156))',
             }}
-            className="text-white px-8 py-4 rounded-xl text-lg shadow-xl transform transition-transform duration-300 hover:scale-105 hover:brightness-110"
+            className="cursor-pointer text-white px-8 py-4 rounded-xl text-lg shadow-xl transform transition-transform duration-300 hover:scale-105 hover:brightness-110"
           >
             Host
           </button>

@@ -3,9 +3,11 @@ import {useState} from 'react';
 import Image from 'next/image';
 import {FaStar, FaHeart} from 'react-icons/fa';
 import {motion} from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 export default function PropertyCard({property}) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const router = useRouter();
 
   // Ambil harga min dan max dari property
   // Pastikan property.price3Days, property.price1Week, property.price2Weeks ada dan bertipe number/string angka
@@ -19,13 +21,17 @@ export default function PropertyCard({property}) {
   const maxPrice = Math.max(...prices);
 
   return (
-    <div>
+    <div
+      onClick={() => router.push(`/property/${property.id}`)}
+      className="group cursor-pointer bg-white rounded-xl overflow-hidden"
+      style={{ position: 'relative' }}
+    >
       <motion.div
         whileHover={{scale: 1.04, boxShadow: '0 8px 24px rgba(0,0,0,0.08)'}}
         initial={{opacity: 0, y: 30}}
         animate={{opacity: 1, y: 0}}
         transition={{type: 'spring', stiffness: 200, damping: 20}}
-        className="group cursor-pointer bg-white rounded-xl overflow-hidden"
+        className="rounded-xl overflow-hidden"
       >
           <Image
             src={property.image}

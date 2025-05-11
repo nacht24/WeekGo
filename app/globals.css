@@ -1,13 +1,16 @@
 @import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   --primary: #01b7e7;
   --background: #ffffff;
   --foreground: #171717;
+}
+
+html, body, #__next {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {

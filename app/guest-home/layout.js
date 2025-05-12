@@ -2,8 +2,11 @@ import '../globals.css';
 import Navbar from '@/components/Navbar';
 
 export const metadata = {
-  title: 'WeekGo - Sewa Mingguan',
+  title: 'WeekGo - Home',
   description: 'Platform sewa penginapan mingguan',
+  icons: {
+    icon: '/weekgo_favicon.ico', // atau '/favicon.ico' jika pakai nama default
+  },
 };
 
 export default function RootLayout({children}) {

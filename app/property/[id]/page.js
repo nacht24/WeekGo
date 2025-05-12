@@ -14,6 +14,7 @@ import {
   FaDoorOpen,
   FaChevronLeft,
   FaChevronRight,
+  FaRegCommentDots, // Tambahkan icon pesan
 } from 'react-icons/fa';
 import {FaShower, FaWifi, FaSnowflake, FaUtensils, FaCar, FaSwimmingPool, FaTv} from 'react-icons/fa';
 import Image from 'next/image';
@@ -399,6 +400,42 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
             <span className="mx-2 text-gray-400 text-lg">•</span>
             <span>{info.reviews} Reviews</span>
           </motion.div>
+
+          <div className="border-b border-gray-200 mb-6"></div>
+
+          {/* Host Info Section */}
+          <motion.div
+            className="flex items-center gap-4 mb-4"
+            initial={{opacity: 0, y: 10}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.4, delay: 0.6}}
+          >
+            <div className="flex items-center gap-3">
+              {/* Avatar inisial dinamis */}
+              <div
+                className="w-12 h-12 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center text-primary font-bold text-lg select-none"
+                style={{minWidth: 48, minHeight: 48}}
+              >
+                {getInitials('Nia')}
+              </div>
+              <div>
+                <span className="block text-xs text-gray-500">Hosting oleh</span>
+                <span className="block font-semibold text-gray-800">Nia</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="ml-2 flex items-center justify-center w-10 h-10 rounded-full transition cursor-pointer bg-gray-100 hover:bg-gray-200"
+              onClick={() => {
+                setPendingChatMsg('Halo Kak Nia, saya ingin bertanya tentang properti ini.');
+                document.getElementById('floating-chat-btn')?.click();
+              }}
+              aria-label="Kirim pesan ke host"
+            >
+              <FaRegCommentDots className="text-xl text-primary" />
+            </button>
+          </motion.div>
+
           {/* Garis pembatas */}
           <div className="border-b border-gray-200 mb-6"></div>
           {/* Detail */}
@@ -572,16 +609,14 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
               <div className="flex items-center justify-between mb-2">
                 <span className="font-semibold text-gray-700">Harga Total</span>
                 <span className="font-bold text-xl text-primary">
-                  {duration === 'custom'
-                    ? 'Hubungi host'
-                    : `Rp ${price.toLocaleString('id-ID')}`}
+                  {duration === 'custom' ? 'Hubungi host' : `Rp ${price.toLocaleString('id-ID')}`}
                 </span>
               </div>
               {duration === 'custom' ? (
                 <button
                   className="w-full bg-primary text-white py-3 rounded-xl font-semibold text-lg shadow-lg hover:brightness-110 transition"
                   onClick={() => {
-                    setPendingChatMsg("Permisi kak, aku ingin pesan untuk durasi lain");
+                    setPendingChatMsg('Permisi kak, aku ingin pesan untuk durasi lain');
                     // Buka floating chat dengan pesan siap dikirim
                     document.getElementById('floating-chat-btn')?.click();
                   }}
@@ -597,8 +632,11 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
           </div>
           {/* Tampilkan chat jika showChat true */}
           {showChat && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40" onClick={() => setShowChat(false)}>
-              <div onClick={e => e.stopPropagation()}>
+            <div
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40"
+              onClick={() => setShowChat(false)}
+            >
+              <div onClick={(e) => e.stopPropagation()}>
                 {/* Import dan render FloatingChat di sini */}
                 {/* Contoh: */}
                 {/* <FloatingChat /> */}
@@ -611,7 +649,11 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
         </motion.div>
       </motion.div>
       {/* Tambahkan FloatingChat di sini agar selalu muncul di pojok kanan bawah */}
-      <FloatingChat userType="guest" pendingMessage={pendingChatMsg} setPendingMessage={setPendingChatMsg} />
+      <FloatingChat
+        userType="guest"
+        pendingMessage={pendingChatMsg}
+        setPendingMessage={setPendingChatMsg}
+      />
     </main>
   );
 }
@@ -912,4 +954,12 @@ function GalleryModal({images}) {
       </div>
     </div>
   );
+}
+
+// Tambahkan fungsi helper di bawah komponen lain:
+function getInitials(name) {
+  if (!name) return '';
+  const parts = name.trim().split(' ');
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }

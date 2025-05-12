@@ -5,66 +5,156 @@ import { FaWifi, FaSnowflake, FaUtensils, FaCar, FaSwimmingPool, FaTv } from 're
 import Image from 'next/image';
 
 const dummyProperties = [
-  {
-    id: 1,
-    name: 'Villa Private Pool, Bali',
-    image: '/images/home.avif',
-    rating: '4.32',
-    price3Days: 500000,
-    price1Week: 1200000,
-    price2Weeks: 2000000,
-    description: 'Villa mewah dengan kolam renang pribadi di Bali.',
-  },
-  {
-    id: 2,
-    name: 'Apartment Studio Jakarta Selatan',
-    image: '/images/home.avif',
-    rating: '4.85',
-    price3Days: 350000,
-    price1Week: 900000,
-    price2Weeks: 1600000,
-    description: 'Apartemen studio nyaman di Jakarta Selatan.',
-  },
-  {
-    id: 3,
-    name: 'Rumah Modern Minimalis Surabaya',
-    image: '/images/home.avif',
-    rating: '4.80',
-    price3Days: 400000,
-    price1Week: 1250000,
-    price2Weeks: 2100000,
-    description: 'Rumah modern minimalis di Surabaya.',
-  },
-  {
-    id: 4,
-    name: 'Kost Eksklusif Depok',
-    image: '/images/home.avif',
-    rating: '4.70',
-    price3Days: 250000,
-    price1Week: 700000,
-    price2Weeks: 1200000,
-    description: 'Kost eksklusif di Depok, dekat kampus.',
-  },
-  {
-    id: 5,
-    name: 'Guesthouse Jogja Tengah Kota',
-    image: '/images/home.avif',
-    rating: '4.88',
-    price3Days: 300000,
-    price1Week: 1100000,
-    price2Weeks: 1800000,
-    description: 'Guesthouse strategis di tengah kota Jogja.',
-  },
-  {
-    id: 6,
-    name: 'Rumah Keluarga Bandung Utara',
-    image: '/images/home.avif',
-    rating: '4.95',
-    price3Days: 450000,
-    price1Week: 1350000,
-    price2Weeks: 2200000,
-    description: 'Rumah keluarga nyaman di Bandung Utara.',
-  },
+	{
+		id: 1,
+		name: 'Villa Private Pool, Bali',
+		image: '/images/home.avif',
+		rating: '4.32',
+		price3Days: 500000,
+		price1Week: 1200000,
+		price2Weeks: 2000000,
+		location: 'Bali',
+	},
+	{
+		id: 2,
+		name: 'Apartment Studio Jakarta Selatan',
+		image: '/images/home.avif',
+		rating: '4.85',
+		price3Days: 350000,
+		price1Week: 900000,
+		price2Weeks: 1600000,
+		location: 'Jakarta Selatan',
+	},
+	{
+		id: 3,
+		name: 'Rumah Modern Minimalis Surabaya',
+		image: '/images/home.avif',
+		rating: '4.80',
+		price3Days: 400000,
+		price1Week: 1250000,
+		price2Weeks: 2100000,
+		location: 'Surabaya',
+	},
+	{
+		id: 4,
+		name: 'Kost Eksklusif Depok',
+		image: '/images/home.avif',
+		rating: '4.70',
+		price3Days: 250000,
+		price1Week: 700000,
+		price2Weeks: 1200000,
+		location: 'Depok',
+	},
+	{
+		id: 5,
+		name: 'Guesthouse Jogja Tengah Kota',
+		image: '/images/home.avif',
+		rating: '4.88',
+		price3Days: 300000,
+		price1Week: 1100000,
+		price2Weeks: 1800000,
+		location: 'Yogyakarta',
+	},
+	{
+		id: 6,
+		name: 'Rumah Keluarga Bandung Utara',
+		image: '/images/home.avif',
+		rating: '4.95',
+		price3Days: 450000,
+		price1Week: 1350000,
+		price2Weeks: 2200000,
+		location: 'Bandung',
+	},
+	{
+		id: 7,
+		name: 'Apartemen Mewah BSD City',
+		image: '/images/home.avif',
+		rating: '4.77',
+		price3Days: 380000,
+		price1Week: 980000,
+		price2Weeks: 1700000,
+		location: 'Tangerang',
+	},
+	{
+		id: 8,
+		name: 'Homestay Dekat Malioboro',
+		image: '/images/home.avif',
+		rating: '4.65',
+		price3Days: 270000,
+		price1Week: 800000,
+		price2Weeks: 1400000,
+		location: 'Yogyakarta',
+	},
+	{
+		id: 9,
+		name: 'Villa Puncak View Gunung',
+		image: '/images/home.avif',
+		rating: '4.90',
+		price3Days: 600000,
+		price1Week: 1500000,
+		price2Weeks: 2500000,
+		location: 'Bogor',
+	},
+	{
+		id: 10,
+		name: 'Rumah Minimalis Alam Sutera',
+		image: '/images/home.avif',
+		rating: '4.60',
+		price3Days: 320000,
+		price1Week: 900000,
+		price2Weeks: 1600000,
+		location: 'Tangerang',
+	},
+	{
+		id: 11,
+		name: 'Kost Putri Dekat UI',
+		image: '/images/home.avif',
+		rating: '4.50',
+		price3Days: 200000,
+		price1Week: 600000,
+		price2Weeks: 1100000,
+		location: 'Depok',
+	},
+	{
+		id: 12,
+		name: 'Apartment Green Pramuka',
+		image: '/images/home.avif',
+		rating: '4.40',
+		price3Days: 300000,
+		price1Week: 850000,
+		price2Weeks: 1550000,
+		location: 'Jakarta Pusat',
+	},
+	{
+		id: 13,
+		name: 'Guesthouse Dekat Pantai Sanur',
+		image: '/images/home.avif',
+		rating: '4.70',
+		price3Days: 350000,
+		price1Week: 950000,
+		price2Weeks: 1700000,
+		location: 'Bali',
+	},
+	{
+		id: 14,
+		name: 'Rumah Keluarga Cihampelas',
+		image: '/images/home.avif',
+		rating: '4.80',
+		price3Days: 420000,
+		price1Week: 1200000,
+		price2Weeks: 2100000,
+		location: 'Bandung',
+	},
+	{
+		id: 15,
+		name: 'Homestay Dekat Alun-Alun Batu',
+		image: '/images/home.avif',
+		rating: '4.68',
+		price3Days: 280000,
+		price1Week: 750000,
+		price2Weeks: 1300000,
+		location: 'Malang',
+	},
 ];
 
 function DetailSkeleton() {
@@ -101,6 +191,7 @@ export default function PropertyDetail({params}) {
 
   // State untuk baca selengkapnya
   const [showFullDesc, setShowFullDesc] = useState(false);
+
 
   // State untuk gallery modal
   const [showGallery, setShowGallery] = useState(false);
@@ -144,6 +235,18 @@ export default function PropertyDetail({params}) {
     reviews: 80,
   };
 
+  // Dummy gallery images (sama untuk semua properti)
+  const galleryImages = [
+    '/images/home.avif',
+    '/images/home2.avif',
+    '/images/home3.avif',
+    '/images/home4.avif',
+    '/images/home5.avif',
+    '/images/home6.avif',
+  ];
+
+  const [showAll, setShowAll] = useState(false);
+
   if (isLoading) return <DetailSkeleton />;
   if (!property) return <div>Properti tidak ditemukan.</div>;
 
@@ -163,130 +266,34 @@ export default function PropertyDetail({params}) {
             </button>
             <h1 className="text-2xl md:text-3xl font-bold flex-1">{property.name}</h1>
           </div>
-          {/* Gallery Grid */}
-          <div className="mb-4">
-            <div className="grid grid-cols-3 grid-rows-2 gap-3 h-64">
-              {/* Kolom 1: gambar besar */}
-              <div className="row-span-2 col-span-1 relative group cursor-pointer" onClick={() => setShowGallery(true)}>
-                <Image
-                  src={galleryImages[0]}
-                  alt="Foto properti 1"
-                  fill
-                  className="object-cover rounded-xl shadow"
-                  style={{ objectFit: 'cover' }}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-              </div>
-              {/* Kolom 2: dua gambar kecil */}
-              <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setShowGallery(true)}>
-                <Image
-                  src={galleryImages[1]}
-                  alt="Foto properti 2"
-                  fill
-                  className="object-cover rounded-xl shadow"
-                  style={{ objectFit: 'cover' }}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-              </div>
-              <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setShowGallery(true)}>
-                <Image
-                  src={galleryImages[2]}
-                  alt="Foto properti 3"
-                  fill
-                  className="object-cover rounded-xl shadow"
-                  style={{ objectFit: 'cover' }}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-                {/* Overlay untuk view more jika ada lebih dari 3 gambar */}
-                {galleryImages.length > 3 && (
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl group-hover:bg-black/60 transition">
-                    <span className="text-white font-semibold text-lg">
-                      +{galleryImages.length - 3} foto lainnya
-                    </span>
-                  </div>
-                )}
-              </div>
+          {/* Foto */}
+          <div className="relative mb-4">
+            <Image
+              src={property.image}
+              alt={property.name}
+              width={800}
+              height={400}
+              className="w-full h-96 object-cover rounded-2xl shadow-lg"
+            />
+            <div className="absolute top-4 right-4 flex gap-2 z-10">
+              <button
+                onClick={() => setIsFavorite((f) => !f)}
+                className={`p-3 rounded-full shadow bg-white/90 hover:bg-primary/90 transition-colors border ${
+                  isFavorite ? 'text-primary' : 'text-gray-500'
+                }`}
+                aria-label="Favorit"
+              >
+                <FaHeart />
+              </button>
+              <button
+                className="p-3 rounded-full shadow bg-white/90 hover:bg-primary/90 transition-colors border text-gray-500"
+                aria-label="Bagikan"
+                onClick={() => navigator.share?.({title: property.name, url: window.location.href})}
+              >
+                <FaShareAlt />
+              </button>
             </div>
           </div>
-          {/* Gallery Photocollage */}
-          <div className="mb-6">
-            <div className="rounded-2xl overflow-hidden shadow-lg bg-gray-100">
-              <div className="flex flex-row h-64">
-                {/* Foto 1 */}
-                <div className="relative flex-1 min-w-0 cursor-pointer" onClick={() => setShowGallery(true)}>
-                  <Image
-                    src={galleryImages[0]}
-                    alt="Foto properti 1"
-                    fill
-                    className="object-cover"
-                    style={{ objectFit: 'cover' }}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-                {/* Foto 2 */}
-                <div className="relative flex-1 min-w-0 border-l border-white cursor-pointer" onClick={() => setShowGallery(true)}>
-                  <Image
-                    src={galleryImages[1]}
-                    alt="Foto properti 2"
-                    fill
-                    className="object-cover"
-                    style={{ objectFit: 'cover' }}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-                {/* Foto 3 + overlay */}
-                <div className="relative flex-1 min-w-0 border-l border-white cursor-pointer group" onClick={() => setShowGallery(true)}>
-                  <Image
-                    src={galleryImages[2]}
-                    alt="Foto properti 3"
-                    fill
-                    className="object-cover"
-                    style={{ objectFit: 'cover' }}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  {/* Overlay jika ada foto lainnya */}
-                  {galleryImages.length > 3 && (
-                    <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center group-hover:bg-black/60 transition rounded-none">
-                      <span className="text-white font-semibold text-lg mb-1">
-                        +{galleryImages.length - 3} foto lainnya
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Modal Gallery */}
-          {showGallery && (
-            <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
-              <div className="relative bg-white rounded-2xl p-4 max-w-3xl w-full">
-                <button
-                  className="absolute top-2 right-2 p-2 rounded-full bg-gray-100 hover:bg-gray-200"
-                  onClick={() => setShowGallery(false)}
-                  aria-label="Tutup"
-                >
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="6" y1="6" x2="18" y2="18" strokeLinecap="round" strokeLinejoin="round" />
-                    <line x1="6" y1="18" x2="18" y2="6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-                <div className="grid grid-cols-3 gap-2">
-                  {galleryImages.map((img, idx) => (
-                    <div key={img} className="relative group">
-                      <Image
-                        src={img}
-                        alt={`Foto properti ${idx + 1}`}
-                        width={800}
-                        height={500}
-                        className="w-full h-60 object-cover rounded-lg shadow-lg"
-                        style={{ aspectRatio: '4/3' }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
           {/* Info property di bawah foto */}
           <div className="flex items-center text-gray-700 text-base md:text-lg font-medium mb-2">
             <span className="flex items-center gap-2">
@@ -426,6 +433,7 @@ export default function PropertyDetail({params}) {
           </div>
         </div>
       </div>
+      {/* Tambahkan detail lain di bawah sini */}
     </main>
   );
 }

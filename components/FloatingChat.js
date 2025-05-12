@@ -52,7 +52,7 @@ export default function FloatingChat() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        style={{ background: 'linear-gradient(to right, #00B5E2, rgb(5, 126, 156))' }}
+        style={{ background: ' #00B5E2' }}
         className="fixed bottom-6 right-6 text-white p-3 rounded-full shadow-lg z-50 hover:brightness-110 transition duration-200"
         aria-label="Buka chat"
       >
@@ -80,7 +80,7 @@ export default function FloatingChat() {
           {/* Main Chat Area */}
           <div className="flex-1 flex flex-col">
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#00B5E2] to-[#057E9C] text-white px-4 py-3 font-semibold flex justify-between items-center rounded-tr-2xl">
+            <div className="bg-[#00B5E2] text-white px-4 py-3 font-semibold flex justify-between items-center rounded-tr-2xl">
               <span>{guests.find((g) => g.id === selectedUser)?.name}</span>
               <button onClick={() => setIsOpen(false)} className="text-white font-bold text-lg">×</button>
             </div>
@@ -131,7 +131,7 @@ export default function FloatingChat() {
               />
               <button
                 onClick={handleSend}
-                style={{ backgroundImage: 'linear-gradient(to right, #00B5E2, rgb(5, 126, 156))' }}
+                style={{ backgroundColor: ' #00B5E2 ' }}
                 className="text-white px-4 py-2 rounded-lg text-sm hover:brightness-110 transition duration-200"
               >
                 Kirim

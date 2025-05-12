@@ -1,6 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import {
+  FaUserFriends, FaDoorOpen, FaBed, FaBath,
+  FaWifi, FaSnowflake, FaTv, FaCar, FaSwimmingPool, FaUtensils,
+} from 'react-icons/fa';
+import { GiShower } from 'react-icons/gi';
 import FloatingChat from '../../components/FloatingChat';
 
 export default function HostFeaturePage() {
@@ -8,7 +13,13 @@ export default function HostFeaturePage() {
   const [description, setDescription] = useState('');
   const [address, setAddress] = useState('');
   const [isActive, setIsActive] = useState(true);
-  const [bookingDates, setBookingDates] = useState([]);
+  const [details, setDetails] = useState({
+    Guest: '',
+    BedRoom: '',
+    Bed: '',
+    BathRoom: '',
+  });
+  const [facilities, setFacilities] = useState([]);
   const [prices, setPrices] = useState({
     '3hari': '',
     '1minggu': '',
@@ -20,7 +31,10 @@ export default function HostFeaturePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = () => {
-    if (!propertyName || !description || !address || Object.values(prices).some((val) => !val) || photos.length === 0) {
+    if (
+      !propertyName || !description || !address ||
+      Object.values(prices).some((val) => !val) || photos.length === 0
+    ) {
       alert('Silakan lengkapi semua field, termasuk alamat dan foto.');
       return;
     }
@@ -38,6 +52,7 @@ export default function HostFeaturePage() {
       animate={{ opacity: 1 }}
     >
       <div className="w-full max-w-6xl bg-white rounded-xl shadow-lg flex flex-col md:flex-row gap-8 p-6">
+        {/* KIRI */}
         <div className="md:w-1/2 w-full">
           <h2 className="text-2xl font-semibold mb-4">Foto Properti</h2>
           <div className="grid grid-cols-3 grid-rows-2 gap-2 h-72 border-2 border-dashed border-gray-400 rounded-xl p-2">
@@ -70,6 +85,7 @@ export default function HostFeaturePage() {
             ))}
           </div>
 
+          {/* Deskripsi */}
           <div className="mt-6">
             <label className="block font-semibold text-lg mb-2">Deskripsi</label>
             <textarea
@@ -80,8 +96,40 @@ export default function HostFeaturePage() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
+
+          {/* Detail Properti */}
+          <div className="mt-6">
+            <label className="block font-semibold text-lg mb-2">Detail Properti</label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[
+                { icon: <FaUserFriends />, key: 'Guest', label: 'Guest' },
+                { icon: <FaDoorOpen />, key: 'BedRoom', label: 'Bed Room' },
+                { icon: <FaBed />, key: 'Bed', label: 'Bed' },
+                { icon: <FaBath />, key: 'BathRoom', label: 'Bath Room' },
+              ].map(({ icon, key, label }) => (
+                <div
+                  key={key}
+                  className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-md shadow-sm"
+                >
+                  <span className="text-[#00B5E2] text-lg">{icon}</span>
+                  <input
+                    type="number"
+                    placeholder={label}
+                    value={details[key]}
+                    onChange={(e) =>
+                      setDetails({ ...details, [key]: e.target.value })
+                    }
+                    className="w-full bg-transparent focus:outline-none text-sm text-gray-700 appearance-none"
+                    min="0"
+                    onWheel={(e) => e.target.blur()} // disable scroll input
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
+        {/* KANAN */}
         <div className="md:w-1/2 w-full space-y-6">
           <div>
             <label className="block font-semibold text-lg mb-2">Nama Properti</label>
@@ -143,13 +191,46 @@ export default function HostFeaturePage() {
               ))}
             </div>
           </div>
+
+          {/* Fasilitas Tanpa Kotak */}
+          <div>
+            <label className="block font-semibold text-lg mb-2">Fasilitas</label>
+            <div className="flex flex-wrap gap-4">
+              {[
+                { icon: <FaWifi />, label: 'Wi-Fi', key: 'wifi' },
+                { icon: <FaSnowflake />, label: 'AC', key: 'ac' },
+                { icon: <FaTv />, label: 'TV', key: 'tv' },
+                { icon: <FaCar />, label: 'Parkir', key: 'parking' },
+                { icon: <FaBath />, label: 'Bathtub', key: 'bathtub' },
+                { icon: <GiShower />, label: 'Shower', key: 'shower' },
+                { icon: <FaUtensils />, label: 'Dapur', key: 'kitchen' },
+                { icon: <FaSwimmingPool />, label: 'Kolam Renang', key: 'pool' },
+              ].map(({ icon, label, key }) => (
+                <label key={key} className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={facilities.includes(key)}
+                    onChange={() =>
+                      setFacilities((prev) =>
+                        prev.includes(key) ? prev.filter((f) => f !== key) : [...prev, key]
+                      )
+                    }
+                    className="accent-blue-500"
+                  />
+                  <span className="text-[#00B5E2]">{icon}</span>
+                  {label}
+                </label>
+              ))}
+            </div>
+          </div>
+
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
             style={
               isSubmitting
                 ? {}
-                : { backgroundImage: 'linear-gradient(to right, #00B5E2, rgb(5, 126, 156))' }
+                : { backgroundColor: '#00B5E2' }
             }
             className={`w-full py-3 rounded-md text-white font-semibold transition duration-200 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'hover:brightness-110'
               }`}

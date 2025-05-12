@@ -188,21 +188,6 @@ export default function Home() {
 	return (
 		<main className="py-6 pb-24">
 			<div className="container mx-auto px-4">
-				{/* Filter lokasi */}
-				<div className="mb-6 flex flex-wrap gap-3">
-					<select
-						className="border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-primary"
-						value={location}
-						onChange={(e) => setLocation(e.target.value)}
-					>
-						<option value="">Semua Lokasi</option>
-						{locations.map((loc) => (
-							<option key={loc} value={loc}>
-								{loc}
-							</option>
-						))}
-					</select>
-				</div>
 				<div className="grid grid-cols-1 gap-6 py-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 					{filtered.length === 0 ? (
 						<div className="col-span-full flex flex-col items-center justify-center py-24">
@@ -241,6 +226,8 @@ export default function Home() {
 				onSearch={setSearch}
 				onPriceChange={setPrice}
 				onRatingChange={setRating}
+				locations={locations}
+				onLocationChange={setLocation}
 			/>
 		</main>
 	);

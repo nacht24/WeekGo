@@ -30,10 +30,17 @@ function TypingDots() {
   );
 }
 
-export default function BottomFilterBar({ onSearch, onPriceChange, onRatingChange }) {
+export default function BottomFilterBar({
+  onSearch,
+  onPriceChange,
+  onRatingChange,
+  locations = [],
+  onLocationChange,
+}) {
   const [search, setSearch] = useState('');
   const [price, setPrice] = useState([0, 2000000]);
   const [rating, setRating] = useState('');
+  const [location, setLocation] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeout = useRef(null);
 
@@ -65,14 +72,19 @@ export default function BottomFilterBar({ onSearch, onPriceChange, onRatingChang
     }
   };
 
+  const handleLocation = (e) => {
+    setLocation(e.target.value);
+    onLocationChange && onLocationChange(e.target.value);
+  };
+
   return (
     <div className="fixed bottom-0 left-0 w-full z-50 flex justify-center pointer-events-none">
       <motion.div
         whileHover={{ scale: 1.025, boxShadow: '0 12px 40px 0 rgba(1,183,231,0.16)' }}
-        className="pointer-events-auto bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-2xl flex flex-row items-stretch gap-6 px-6 py-4 my-6 max-w-5xl w-[98%] transition-all duration-300"
+        className="pointer-events-auto bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-2xl flex flex-row items-stretch gap-4 px-4 py-4 my-6 max-w-3xl w-[98%] justify-between transition-all duration-300"
       >
         {/* Search */}
-        <div className="flex items-center gap-2 min-w-0 h-full flex-1 relative">
+        <div className="flex items-center gap-2 min-w-0 h-full flex-1 relative max-w-xs">
           <span className="bg-primary/10 rounded-full p-2 absolute left-0 top-1/2 -translate-y-1/2 z-10">
             {isTyping ? <TypingDots /> : <FiSearch className="text-primary" />}
           </span>
@@ -81,8 +93,32 @@ export default function BottomFilterBar({ onSearch, onPriceChange, onRatingChang
             placeholder="Nama properti..."
             value={search}
             onChange={handleSearch}
-            className="outline-none bg-transparent w-full text-sm h-10 pl-10"
+            className="outline-none bg-transparent w-full text-sm h-10 pl-10 max-w-[180px]"
           />
+        </div>
+        {/* Location Dropdown */}
+        <div className="flex flex-col justify-center items-start min-w-0">
+          <span className="mb-1 text-xs text-gray-500">Lokasi:</span>
+          <div className="relative w-full">
+            <select
+              className="appearance-none border border-gray-300 bg-primary/5 rounded-lg px-3 py-2 pr-8 text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-300 text-sm transition shadow-sm hover:border-gray-400"
+              value={location}
+              onChange={handleLocation}
+              style={{ minWidth: 120 }}
+            >
+              <option value="">Semua Lokasi</option>
+              {locations.map((loc) => (
+                <option key={loc} value={loc}>
+                  {loc}
+                </option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-primary">
+              <svg width="18" height="18" fill="none" viewBox="0 0 20 20">
+                <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+          </div>
         </div>
         {/* Price Range */}
         <div className="flex flex-col justify-center items-start min-w-0">

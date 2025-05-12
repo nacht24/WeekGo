@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { FaStar, FaMapMarkerAlt, FaShareAlt, FaHeart, FaMinus, FaPlus, FaArrowLeft } from 'react-icons/fa';
+import { FaStar, FaMapMarkerAlt, FaShareAlt, FaHeart, FaMinus, FaPlus, FaArrowLeft, FaUserFriends, FaBed, FaBath, FaDoorOpen } from 'react-icons/fa';
+import Image from 'next/image';
 
 const dummyProperties = [
 	{
@@ -119,6 +120,15 @@ export default function PropertyDetail({ params }) {
 
     const shortDesc = fullDesc.split('\n').slice(0, 2).join(' ');
 
+    // Dummy info property
+    const info = {
+        guests: 2,
+        bedrooms: 2,
+        beds: 3,
+        baths: 1,
+        reviews: 80,
+    };
+
     if (isLoading) return <DetailSkeleton />;
     if (!property) return <div>Properti tidak ditemukan.</div>;
 
@@ -127,7 +137,7 @@ export default function PropertyDetail({ params }) {
             <div className="flex flex-col lg:flex-row gap-10">
                 {/* Kiri: Header, Foto & Detail */}
                 <div className="w-full lg:w-2/3">
-                    {/* Header (tanpa kotak, nama saja & tombol kembali) */}
+                    {/* Header */}
                     <div className="flex items-center gap-3 mb-8">
                         <button
                             className="p-2 rounded-full hover:bg-primary/10 transition cursor-pointer"
@@ -140,9 +150,11 @@ export default function PropertyDetail({ params }) {
                     </div>
                     {/* Foto */}
                     <div className="relative mb-4">
-                        <img
+                        <Image
                             src={property.image}
                             alt={property.name}
+                            width={800}
+                            height={400}
                             className="w-full h-96 object-cover rounded-2xl shadow-lg"
                         />
                         <div className="absolute top-4 right-4 flex gap-2 z-10">
@@ -166,16 +178,42 @@ export default function PropertyDetail({ params }) {
                             </button>
                         </div>
                     </div>
-                    {/* Rating di bawah foto */}
-                    <div className="flex items-center gap-2 mb-2">
-                        <FaStar className="text-yellow-400" />
-                        <span className="font-semibold text-primary">{property.rating}</span>
+                    {/* Info property di bawah foto */}
+                    <div className="flex items-center text-gray-700 text-base md:text-lg font-medium mb-2">
+                        <span className="flex items-center gap-2">
+                            <FaUserFriends className="text-primary text-xl" /> {info.guests} guest
+                        </span>
+                        <span className="mx-2 text-gray-400 text-lg">•</span>
+                        <span className="flex items-center gap-2">
+                            <FaDoorOpen className="text-primary text-xl" /> {info.bedrooms} bedroom
+                        </span>
+                        <span className="mx-2 text-gray-400 text-lg">•</span>
+                        <span className="flex items-center gap-2">
+                            <FaBed className="text-primary text-xl" /> {info.beds} bed
+                        </span>
+                        <span className="mx-2 text-gray-400 text-lg">•</span>
+                        <span className="flex items-center gap-2">
+                            <FaBath className="text-primary text-xl" /> {info.baths} bath
+                        </span>
                     </div>
+                    {/* Rating & review di bawah info */}
+                    <div className="flex items-center text-gray-700 mb-4 text-base md:text-lg font-medium">
+                        <span className="flex items-center gap-1">
+                            <FaStar className="text-yellow-400 text-xl" />
+                            <span className="font-semibold text-primary">{property.rating}</span>
+                        </span>
+                        <span className="mx-2 text-gray-400 text-lg">•</span>
+                        <span>
+                            {info.reviews} Reviews
+                        </span>
+                    </div>
+                    {/* Garis pembatas */}
+                    <div className="border-b border-gray-200 mb-6"></div>
                     {/* Detail */}
                     <div className="mb-6">
                         <div className="flex items-center gap-2 text-gray-500 mb-2">
                             <FaMapMarkerAlt className="text-primary" />
-                            <span className="text-sm">Lokasi strategis • Indonesia</span>
+                            <span className="text-sm">Surabaya • Indonesia</span>
                         </div>
                         <p className="text-gray-700 whitespace-pre-line">
                             {showFullDesc ? fullDesc : shortDesc + '...'}
@@ -192,7 +230,7 @@ export default function PropertyDetail({ params }) {
                 </div>
                 {/* Kanan: Booking Box */}
                 <div className="w-full lg:w-1/3">
-                    <div className="sticky top-24 bg-white border rounded-2xl shadow-xl p-6 space-y-6">
+                    <div className="sticky top-24 bg-white rounded-2xl shadow-xl p-6 space-y-6">
                         <div>
                             <label className="block font-semibold mb-2 text-primary">
                                 Pilih Durasi Sewa

@@ -160,7 +160,7 @@ export default function FloatingChat({userType = 'host', pendingMessage, setPend
               {/* Main Chat Area */}
               <div className="flex-1 flex flex-col">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-[#00B5E2] to-[#057E9C] text-white px-4 py-3 font-semibold flex justify-between items-center rounded-tr-2xl">
+                <div className="bg-[#00B5E2] text-white px-4 py-3 font-semibold flex justify-between items-center rounded-tr-2xl">
                   <span>{contacts.find((c) => c.id === selectedUser)?.name}</span>
                   <button
                     onClick={() => setIsOpen(false)}
@@ -320,7 +320,7 @@ export default function FloatingChat({userType = 'host', pendingMessage, setPend
       <button
         id="floating-chat-btn"
         onClick={() => setIsOpen(!isOpen)}
-        style={{background: 'linear-gradient(to right, #00B5E2, rgb(5, 126, 156))'}}
+        style={{background: ' #00B5E2'}}
         className="fixed bottom-6 right-6 text-white p-3 rounded-full shadow-lg z-50 hover:brightness-110 transition duration-200 cursor-pointer"
         aria-label="Buka chat"
         type="button"

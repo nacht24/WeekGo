@@ -29,18 +29,50 @@ export default function HostFeaturePage() {
   });
   const [photos, setPhotos] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [warningMessage, setWarningMessage] = useState({
+    propertyName: '',
+    description: '',
+    address: '',
+    prices: '',
+    photos: '',
+    details: '',
+  });
 
   const handleSubmit = () => {
+    let newWarningMessage = {
+      propertyName: '',
+      description: '',
+      address: '',
+      prices: '',
+      photos: '',
+      details: '',
+    };
+
+    // Cek apakah ada field yang belum diisi
+    if (!propertyName) newWarningMessage.propertyName = 'Nama properti wajib diisi.';
+    if (!description) newWarningMessage.description = 'Deskripsi properti wajib diisi.';
+    if (!address) newWarningMessage.address = 'Alamat properti wajib diisi.';
+
+    // Perbarui pengecekan harga sewa untuk menghindari peringatan saat harga sudah ada
     if (
-      !propertyName || !description || !address ||
-      Object.values(prices).some((val) => !val) || photos.length === 0
+      !prices['3hari'] || !prices['1minggu'] || !prices['2minggu'] || !prices['3minggu']
     ) {
-      alert('Silakan lengkapi semua field, termasuk alamat dan foto.');
+      newWarningMessage.prices = 'Harga untuk setiap durasi wajib diisi.';
+    }
+
+    if (photos.length === 0) newWarningMessage.photos = 'Foto properti wajib diupload.';
+    if (Object.values(details).some((val) => !val)) newWarningMessage.details = 'Jumlah tamu, kamar tidur, tempat tidur, dan kamar mandi wajib diisi.';
+
+    if (Object.values(newWarningMessage).some((msg) => msg)) {
+      setWarningMessage(newWarningMessage);  // Menampilkan peringatan
+      setSuccessMessage(''); // Clear success message if any error occurs
       return;
     }
+
     setIsSubmitting(true);
     setTimeout(() => {
-      alert('Properti berhasil disimpan!');
+      setSuccessMessage('Properti berhasil didaftarkan!');
       setIsSubmitting(false);
     }, 1000);
   };
@@ -84,6 +116,9 @@ export default function HostFeaturePage() {
               </label>
             ))}
           </div>
+          {warningMessage.photos && (
+            <p className="text-red-600 text-sm mt-2">{warningMessage.photos}</p>
+          )}
 
           {/* Deskripsi */}
           <div className="mt-6">
@@ -95,6 +130,9 @@ export default function HostFeaturePage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
+            {warningMessage.description && (
+              <p className="text-red-600 text-sm mt-2">{warningMessage.description}</p>
+            )}
           </div>
 
           {/* Detail Properti */}
@@ -126,20 +164,25 @@ export default function HostFeaturePage() {
                 </div>
               ))}
             </div>
+            {warningMessage.details && (
+              <p className="text-red-600 text-sm mt-2">{warningMessage.details}</p>
+            )}
           </div>
+
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            style={
-              isSubmitting
-                ? {}
-                : { backgroundColor: '#00B5E2' }
-            }
-            className={`w-full py-3 mt-6 rounded-md text-white font-semibold transition duration-200 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'hover:brightness-110'
-              }`}
+            style={isSubmitting ? {} : { backgroundColor: '#00B5E2' }}
+            className={`w-full py-3 mt-6 rounded-md text-white font-semibold transition duration-200 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'hover:brightness-110'}`}
           >
             {isSubmitting ? 'Menyimpan...' : 'Daftarkan Properti'}
           </button>
+          {/* Success Message */}
+          {successMessage && (
+            <div className="mt-4 text-center text-green-500 font-semibold">
+              {successMessage}
+            </div>
+          )}
         </div>
 
         {/* KANAN */}
@@ -153,6 +196,9 @@ export default function HostFeaturePage() {
               value={propertyName}
               onChange={(e) => setPropertyName(e.target.value)}
             />
+            {warningMessage.propertyName && (
+              <p className="text-red-600 text-sm mt-2">{warningMessage.propertyName}</p>
+            )}
           </div>
 
           <div className="pb-4 border-b border-gray-200">
@@ -164,6 +210,9 @@ export default function HostFeaturePage() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
+            {warningMessage.address && (
+              <p className="text-red-600 text-sm mt-2">{warningMessage.address}</p>
+            )}
           </div>
 
           <div className="flex items-center gap-4">
@@ -192,8 +241,8 @@ export default function HostFeaturePage() {
                     type="number"
                     placeholder="Rp"
                     className="w-full p-2 border border-gray-300 rounded-md mt-1
-                   focus:outline-none focus:ring-2 focus:ring-[#00B5E2] focus:border-[#00B5E2]
-                   text-gray-700 focus:text-[#00B5E2] focus:font-semibold"
+                      focus:outline-none focus:ring-2 focus:ring-[#00B5E2] focus:border-[#00B5E2]
+                      text-gray-700 focus:text-[#00B5E2] focus:font-semibold"
                     value={prices[key]}
                     onChange={(e) =>
                       setPrices((prev) => ({
@@ -205,8 +254,10 @@ export default function HostFeaturePage() {
                 </div>
               ))}
             </div>
+            {warningMessage.prices && (
+              <p className="text-red-600 text-sm mt-2">{warningMessage.prices}</p>
+            )}
           </div>
-
 
           {/* Fasilitas */}
           <div>

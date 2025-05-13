@@ -1,11 +1,9 @@
 'use client';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import {
-  FaUserFriends, FaDoorOpen, FaBed, FaBath,
-  FaWifi, FaSnowflake, FaTv, FaCar, FaSwimmingPool, FaUtensils,
-} from 'react-icons/fa';
-import { GiShower } from 'react-icons/gi';
+import {useState} from 'react';
+import {motion} from 'framer-motion';
+import {FaUserFriends, FaDoorOpen, FaBed, FaBath, FaWifi, FaSnowflake, FaTv, FaCar, FaSwimmingPool, FaUtensils} from 'react-icons/fa';
+import {GiShower} from 'react-icons/gi';
+import {FaPlus} from 'react-icons/fa';
 import FloatingChat from '../../components/FloatingChat';
 
 export default function HostFeaturePage() {
@@ -19,13 +17,18 @@ export default function HostFeaturePage() {
     Bed: '',
     BathRoom: '',
   });
+
+  const [customFacilities, setCustomFacilities] = useState([]);
+  const [customFacilityInput, setCustomFacilityInput] = useState('');
+  const [showCustomFacilityInput, setShowCustomFacilityInput] = useState(false);
+
   const [facilities, setFacilities] = useState([]);
   const [prices, setPrices] = useState({
     '3hari': '',
     '1minggu': '',
     '2minggu': '',
     '3minggu': '',
-    'nego': '',
+    nego: '',
   });
   const [photos, setPhotos] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,17 +58,16 @@ export default function HostFeaturePage() {
     if (!address) newWarningMessage.address = 'Alamat properti wajib diisi.';
 
     // Perbarui pengecekan harga sewa untuk menghindari peringatan saat harga sudah ada
-    if (
-      !prices['3hari'] || !prices['1minggu'] || !prices['2minggu'] || !prices['3minggu']
-    ) {
+    if (!prices['3hari'] || !prices['1minggu'] || !prices['2minggu'] || !prices['3minggu']) {
       newWarningMessage.prices = 'Harga untuk setiap durasi wajib diisi.';
     }
 
     if (photos.length === 0) newWarningMessage.photos = 'Foto properti wajib diupload.';
-    if (Object.values(details).some((val) => !val)) newWarningMessage.details = 'Jumlah tamu, kamar tidur, tempat tidur, dan kamar mandi wajib diisi.';
+    if (Object.values(details).some((val) => !val))
+      newWarningMessage.details = 'Jumlah tamu, kamar tidur, tempat tidur, dan kamar mandi wajib diisi.';
 
     if (Object.values(newWarningMessage).some((msg) => msg)) {
-      setWarningMessage(newWarningMessage);  // Menampilkan peringatan
+      setWarningMessage(newWarningMessage); // Menampilkan peringatan
       setSuccessMessage(''); // Clear success message if any error occurs
       return;
     }
@@ -80,8 +82,8 @@ export default function HostFeaturePage() {
   return (
     <motion.div
       className="min-h-screen bg-white flex items-center justify-center py-10 px-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
     >
       <div className="w-full max-w-6xl bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col md:flex-row gap-8 p-6">
         {/* KIRI */}
@@ -91,7 +93,9 @@ export default function HostFeaturePage() {
             {[0, 1, 2].map((idx) => (
               <label
                 key={idx}
-                className={`relative ${idx === 0 ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1'} overflow-hidden rounded-xl cursor-pointer group border border-gray-300`}
+                className={`relative ${
+                  idx === 0 ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1'
+                } overflow-hidden rounded-xl cursor-pointer group border border-gray-300`}
               >
                 <input
                   type="file"
@@ -108,7 +112,11 @@ export default function HostFeaturePage() {
                   }}
                 />
                 {photos[idx] && (
-                  <img src={photos[idx]} className="w-full h-full object-cover" alt={`Foto ${idx + 1}`} />
+                  <img
+                    src={photos[idx]}
+                    className="w-full h-full object-cover"
+                    alt={`Foto ${idx + 1}`}
+                  />
                 )}
                 <div className="absolute inset-0 bg-gray-300 bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                   <span className="text-white text-4xl font-bold">+</span>
@@ -116,9 +124,7 @@ export default function HostFeaturePage() {
               </label>
             ))}
           </div>
-          {warningMessage.photos && (
-            <p className="text-red-600 text-sm mt-2">{warningMessage.photos}</p>
-          )}
+          {warningMessage.photos && <p className="text-red-600 text-sm mt-2">{warningMessage.photos}</p>}
 
           {/* Deskripsi */}
           <div className="mt-6">
@@ -130,9 +136,7 @@ export default function HostFeaturePage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            {warningMessage.description && (
-              <p className="text-red-600 text-sm mt-2">{warningMessage.description}</p>
-            )}
+            {warningMessage.description && <p className="text-red-600 text-sm mt-2">{warningMessage.description}</p>}
           </div>
 
           {/* Detail Properti */}
@@ -140,11 +144,11 @@ export default function HostFeaturePage() {
             <label className="block font-semibold text-lg mb-2">Detail Properti</label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
-                { icon: <FaUserFriends />, key: 'Guest', label: 'Guest' },
-                { icon: <FaDoorOpen />, key: 'BedRoom', label: 'Room' },
-                { icon: <FaBed />, key: 'Bed', label: 'Bed' },
-                { icon: <FaBath />, key: 'BathRoom', label: 'Bath' },
-              ].map(({ icon, key, label }) => (
+                {icon: <FaUserFriends />, key: 'Guest', label: 'Guest'},
+                {icon: <FaDoorOpen />, key: 'BedRoom', label: 'Room'},
+                {icon: <FaBed />, key: 'Bed', label: 'Bed'},
+                {icon: <FaBath />, key: 'BathRoom', label: 'Bath'},
+              ].map(({icon, key, label}) => (
                 <div
                   key={key}
                   className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-md shadow-sm"
@@ -154,9 +158,7 @@ export default function HostFeaturePage() {
                     type="number"
                     placeholder={label}
                     value={details[key]}
-                    onChange={(e) =>
-                      setDetails({ ...details, [key]: e.target.value })
-                    }
+                    onChange={(e) => setDetails({...details, [key]: e.target.value})}
                     className="w-full bg-transparent focus:outline-none text-sm text-gray-700 appearance-none"
                     min="0"
                     onWheel={(e) => e.target.blur()} // disable scroll input
@@ -164,25 +166,21 @@ export default function HostFeaturePage() {
                 </div>
               ))}
             </div>
-            {warningMessage.details && (
-              <p className="text-red-600 text-sm mt-2">{warningMessage.details}</p>
-            )}
+            {warningMessage.details && <p className="text-red-600 text-sm mt-2">{warningMessage.details}</p>}
           </div>
 
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            style={isSubmitting ? {} : { backgroundColor: '#00B5E2' }}
-            className={`w-full py-3 mt-6 rounded-md text-white font-semibold transition duration-200 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'hover:brightness-110'}`}
+            style={isSubmitting ? {} : {backgroundColor: '#00B5E2'}}
+            className={`w-full py-3 mt-6 rounded-md text-white font-semibold transition duration-200 ${
+              isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'hover:brightness-110'
+            }`}
           >
             {isSubmitting ? 'Menyimpan...' : 'Daftarkan Properti'}
           </button>
           {/* Success Message */}
-          {successMessage && (
-            <div className="mt-4 text-center text-green-500 font-semibold">
-              {successMessage}
-            </div>
-          )}
+          {successMessage && <div className="mt-4 text-center text-green-500 font-semibold">{successMessage}</div>}
         </div>
 
         {/* KANAN */}
@@ -196,9 +194,7 @@ export default function HostFeaturePage() {
               value={propertyName}
               onChange={(e) => setPropertyName(e.target.value)}
             />
-            {warningMessage.propertyName && (
-              <p className="text-red-600 text-sm mt-2">{warningMessage.propertyName}</p>
-            )}
+            {warningMessage.propertyName && <p className="text-red-600 text-sm mt-2">{warningMessage.propertyName}</p>}
           </div>
 
           <div className="pb-4 border-b border-gray-200">
@@ -210,9 +206,7 @@ export default function HostFeaturePage() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-            {warningMessage.address && (
-              <p className="text-red-600 text-sm mt-2">{warningMessage.address}</p>
-            )}
+            {warningMessage.address && <p className="text-red-600 text-sm mt-2">{warningMessage.address}</p>}
           </div>
 
           <div className="flex items-center gap-4">
@@ -230,11 +224,11 @@ export default function HostFeaturePage() {
             <label className="block font-semibold text-lg mb-2">Harga Sewa</label>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: '3 Hari', key: '3hari' },
-                { label: '1 Minggu', key: '1minggu' },
-                { label: '2 Minggu', key: '2minggu' },
-                { label: '3 Minggu', key: '3minggu' },
-              ].map(({ label, key }) => (
+                {label: '3 Hari', key: '3hari'},
+                {label: '1 Minggu', key: '1minggu'},
+                {label: '2 Minggu', key: '2minggu'},
+                {label: '3 Minggu', key: '3minggu'},
+              ].map(({label, key}) => (
                 <div key={key}>
                   <label className="text-sm font-medium">{label}</label>
                   <input
@@ -254,41 +248,103 @@ export default function HostFeaturePage() {
                 </div>
               ))}
             </div>
-            {warningMessage.prices && (
-              <p className="text-red-600 text-sm mt-2">{warningMessage.prices}</p>
-            )}
+            {warningMessage.prices && <p className="text-red-600 text-sm mt-2">{warningMessage.prices}</p>}
           </div>
 
           {/* Fasilitas */}
           <div>
             <label className="block font-semibold text-lg mb-2">Fasilitas</label>
             <div className="flex flex-wrap gap-4">
+              {/* Fasilitas yang sudah ada */}
               {[
-                { icon: <FaWifi />, label: 'Wi-Fi', key: 'wifi' },
-                { icon: <FaSnowflake />, label: 'AC', key: 'ac' },
-                { icon: <FaTv />, label: 'TV', key: 'tv' },
-                { icon: <FaCar />, label: 'Parkir', key: 'parking' },
-                { icon: <FaBath />, label: 'Bathtub', key: 'bathtub' },
-                { icon: <GiShower />, label: 'Shower', key: 'shower' },
-                { icon: <FaUtensils />, label: 'Dapur', key: 'kitchen' },
-                { icon: <FaSwimmingPool />, label: 'Kolam Renang', key: 'pool' },
-              ].map(({ icon, label, key }) => (
-                <label key={key} className="flex items-center gap-2 text-sm cursor-pointer">
+                {icon: <FaWifi />, label: 'Wi-Fi', key: 'wifi'},
+                {icon: <FaSnowflake />, label: 'AC', key: 'ac'},
+                {icon: <FaTv />, label: 'TV', key: 'tv'},
+                {icon: <FaCar />, label: 'Parkir', key: 'parking'},
+                {icon: <FaBath />, label: 'Bathtub', key: 'bathtub'},
+                {icon: <GiShower />, label: 'Shower', key: 'shower'},
+                {icon: <FaUtensils />, label: 'Dapur', key: 'kitchen'},
+                {icon: <FaSwimmingPool />, label: 'Kolam Renang', key: 'pool'},
+              ].map(({icon, label, key}) => (
+                <label
+                  key={key}
+                  className="flex items-center gap-2 text-sm cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={facilities.includes(key)}
-                    onChange={() =>
-                      setFacilities((prev) =>
-                        prev.includes(key) ? prev.filter((f) => f !== key) : [...prev, key]
-                      )
-                    }
+                    onChange={() => setFacilities((prev) => (prev.includes(key) ? prev.filter((f) => f !== key) : [...prev, key]))}
                     className="accent-blue-500"
                   />
                   <span className="text-[#00B5E2]">{icon}</span>
                   {label}
                 </label>
               ))}
+
+              {/* Fasilitas Custom: checkbox trigger input */}
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showCustomFacilityInput}
+                  onChange={() => setShowCustomFacilityInput(!showCustomFacilityInput)}
+                  className="accent-blue-500"
+                />
+                <span className="text-[#00B5E2]">
+                  <FaPlus />
+                </span>
+                Lainnya
+              </label>
             </div>
+
+            {/* Input Custom Facility */}
+            {showCustomFacilityInput && (
+              <div className="w-full mt-4">
+                <input
+                  type="text"
+                  placeholder="Masukkan fasilitas lainnya (pisahkan dengan koma)"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  value={customFacilityInput}
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    const parts = input.split(',');
+                    const lastPart = parts[parts.length - 2]?.trim(); // Ambil item sebelum koma terakhir
+
+                    // Jika user baru saja nambahin koma dan part sebelumnya valid
+                    if (input.endsWith(',') && lastPart) {
+                      if (!customFacilities.includes(lastPart)) {
+                        setCustomFacilities((prev) => [...prev, lastPart]);
+                      }
+                    }
+
+                    // Tetap tampilkan input penuh
+                    setCustomFacilityInput(input);
+                  }}
+                />
+                <p className="text-gray-500 text-sm mt-1">Contoh: Gym, Sauna, Area BBQ</p>
+              </div>
+            )}
+
+            {/* Badge Fasilitas Custom */}
+            {customFacilities.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {customFacilities.map((facility, index) => (
+                  <span
+                    key={index}
+                    className="bg-blue-100 text-blue-800 text-sm px-2 py-1 rounded-md flex items-center gap-1"
+                  >
+                    {facility}
+                    <button
+                      onClick={() => {
+                        setCustomFacilities((prev) => prev.filter((_, i) => i !== index));
+                      }}
+                      className="text-red-500 hover:text-red-700 font-bold"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

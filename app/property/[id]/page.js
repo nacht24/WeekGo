@@ -14,12 +14,12 @@ import {
   FaDoorOpen,
   FaChevronLeft,
   FaChevronRight,
-  FaRegCommentDots, // Tambahkan icon pesan
+  FaRegCommentDots,
 } from 'react-icons/fa';
 import {FaShower, FaWifi, FaSnowflake, FaUtensils, FaCar, FaSwimmingPool, FaTv} from 'react-icons/fa';
 import Image from 'next/image';
 import {motion, AnimatePresence} from 'framer-motion';
-import FloatingChat from '@/components/FloatingChat'; // sudah ada
+import FloatingChat from '@/components/FloatingChat';
 
 const dummyProperties = [
   {
@@ -30,6 +30,7 @@ const dummyProperties = [
     price3Days: 500000,
     price1Week: 1200000,
     price2Weeks: 2000000,
+    price3Weeks: 2800000,
     location: 'Bali',
   },
   {
@@ -40,6 +41,7 @@ const dummyProperties = [
     price3Days: 350000,
     price1Week: 900000,
     price2Weeks: 1600000,
+    price3Weeks: 2200000,
     location: 'Jakarta Selatan',
   },
   {
@@ -50,6 +52,7 @@ const dummyProperties = [
     price3Days: 400000,
     price1Week: 1250000,
     price2Weeks: 2100000,
+    price3Weeks: 3000000,
     location: 'Surabaya',
   },
   {
@@ -60,6 +63,7 @@ const dummyProperties = [
     price3Days: 250000,
     price1Week: 700000,
     price2Weeks: 1200000,
+    price3Weeks: 1700000,
     location: 'Depok',
   },
   {
@@ -70,6 +74,7 @@ const dummyProperties = [
     price3Days: 300000,
     price1Week: 1100000,
     price2Weeks: 1800000,
+    price3Weeks: 2800000,
     location: 'Yogyakarta',
   },
   {
@@ -80,6 +85,7 @@ const dummyProperties = [
     price3Days: 450000,
     price1Week: 1350000,
     price2Weeks: 2200000,
+    price3Weeks: 2900000,
     location: 'Bandung',
   },
   {
@@ -90,6 +96,7 @@ const dummyProperties = [
     price3Days: 380000,
     price1Week: 980000,
     price2Weeks: 1700000,
+    price3Weeks: 2800000,
     location: 'Tangerang',
   },
   {
@@ -100,6 +107,7 @@ const dummyProperties = [
     price3Days: 270000,
     price1Week: 800000,
     price2Weeks: 1400000,
+    price3Weeks: 2400000,
     location: 'Yogyakarta',
   },
   {
@@ -110,6 +118,7 @@ const dummyProperties = [
     price3Days: 600000,
     price1Week: 1500000,
     price2Weeks: 2500000,
+    price3Weeks: 3100000,
     location: 'Bogor',
   },
   {
@@ -120,6 +129,7 @@ const dummyProperties = [
     price3Days: 320000,
     price1Week: 900000,
     price2Weeks: 1600000,
+    price3Weeks: 2400000,
     location: 'Tangerang',
   },
   {
@@ -130,6 +140,7 @@ const dummyProperties = [
     price3Days: 200000,
     price1Week: 600000,
     price2Weeks: 1100000,
+    price3Weeks: 2100000,
     location: 'Depok',
   },
   {
@@ -140,6 +151,7 @@ const dummyProperties = [
     price3Days: 300000,
     price1Week: 850000,
     price2Weeks: 1550000,
+    price3Weeks: 2150000,
     location: 'Jakarta Pusat',
   },
   {
@@ -150,6 +162,7 @@ const dummyProperties = [
     price3Days: 350000,
     price1Week: 950000,
     price2Weeks: 1700000,
+    price3Weeks: 2500000,
     location: 'Bali',
   },
   {
@@ -160,6 +173,7 @@ const dummyProperties = [
     price3Days: 420000,
     price1Week: 1200000,
     price2Weeks: 2100000,
+    price3Weeks: 3200000,
     location: 'Bandung',
   },
   {
@@ -170,6 +184,7 @@ const dummyProperties = [
     price3Days: 280000,
     price1Week: 750000,
     price2Weeks: 1300000,
+    price3Weeks: 2100000,
     location: 'Malang',
   },
 ];
@@ -201,17 +216,14 @@ export default function PropertyDetail({params}) {
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Booking state
-  const [duration, setDuration] = useState('3'); // '3', '7', '14', 'custom'
+  const [duration, setDuration] = useState('3');
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
-  const [showChat, setShowChat] = useState(false); // Tambah state untuk chat
-  const [pendingChatMsg, setPendingChatMsg] = useState(null); // Tambah state
+  const [showChat, setShowChat] = useState(false);
+  const [pendingChatMsg, setPendingChatMsg] = useState(null);
 
-  // State untuk baca selengkapnya
   const [showFullDesc, setShowFullDesc] = useState(false);
 
-  // State untuk gallery modal
   const [showGallery, setShowGallery] = useState(false);
 
   useEffect(() => {
@@ -221,7 +233,6 @@ export default function PropertyDetail({params}) {
 
   const property = dummyProperties.find((p) => p.id === Number(id));
 
-  // Ganti dengan gambar dari public/images/property/
   const galleryImages = [
     '/images/property/home1.jpeg',
     '/images/property/home2.jpeg',
@@ -232,14 +243,12 @@ export default function PropertyDetail({params}) {
     '/images/property/home7.jpeg',
   ];
 
-  // Ubah perhitungan price
   let price = 0;
   if (duration === '3') price = property?.price3Days || 0;
   else if (duration === '7') price = property?.price1Week || 0;
   else if (duration === '14') price = property?.price2Weeks || 0;
-  // Jika custom, price tetap 0 atau tampilkan "Hubungi host"
+  else if (duration === '21') price = property?.price3Weeks || 0;
 
-  // Deskripsi lorem ipsum (sama untuk semua properti)
   const fullDesc = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi, euismod euismod nisi nisi euismod. Suspendisse potenti. Etiam ac mauris vitae urna fermentum tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Nullam dictum, enim at convallis dictum, enim enim dictum enim, at convallis enim enim at enim.
 
 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam. Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
@@ -248,7 +257,6 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
 
   const shortDesc = fullDesc.split('\n').slice(0, 2).join(' ');
 
-  // Dummy info property
   const info = {
     guests: 2,
     bedrooms: 2,
@@ -270,14 +278,14 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
         animate={{opacity: 1, y: 0}}
         transition={{duration: 0.5, ease: 'easeOut'}}
       >
-        {/* Kiri: Header, Foto & Detail */}
+
         <motion.div
           className="w-full lg:w-2/3"
           initial={{opacity: 0, x: -40}}
           animate={{opacity: 1, x: 0}}
           transition={{duration: 0.5, delay: 0.15, ease: 'easeOut'}}
         >
-          {/* Header */}
+
           <motion.div
             className="flex items-center gap-3 mb-8"
             initial={{opacity: 0, y: -20}}
@@ -293,7 +301,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
             </button>
             <h1 className="text-2xl md:text-3xl font-bold flex-1">{property.name}</h1>
           </motion.div>
-          {/* Gallery Images */}
+
           <motion.div
             className="mb-6"
             initial={{opacity: 0, scale: 0.97}}
@@ -301,7 +309,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
             transition={{duration: 0.5, delay: 0.3}}
           >
             <div className="grid grid-cols-3 grid-rows-2 gap-2 h-72 md:h-96">
-              {/* Gambar besar kiri */}
+
               <div className="relative row-span-2 col-span-2 rounded-l-lg overflow-hidden">
                 <Image
                   src={galleryImages[0]}
@@ -311,7 +319,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
                   priority
                 />
               </div>
-              {/* Gambar kanan atas */}
+
               <div className="relative rounded-tr-lg overflow-hidden">
                 <Image
                   src={galleryImages[1]}
@@ -320,7 +328,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
                   className="object-cover"
                 />
               </div>
-              {/* Gambar kanan bawah dengan blur & overlay */}
+
               <div
                 className="relative rounded-br-lg overflow-hidden group cursor-pointer"
                 onClick={() => setShowAll(true)}
@@ -336,7 +344,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
                 </span>
               </div>
             </div>
-            {/* Modal gallery */}
+
             {showAll && (
               <AnimatePresence>
                 <motion.div
@@ -363,7 +371,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
               </AnimatePresence>
             )}
           </motion.div>
-          {/* Info property di bawah foto */}
+
           <motion.div
             className="flex items-center text-gray-700 text-base md:text-lg font-medium mb-2"
             initial={{opacity: 0, y: 10}}
@@ -386,7 +394,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
               <FaBath className="text-primary text-xl" /> {info.baths} bath
             </span>
           </motion.div>
-          {/* Rating & review di bawah info */}
+
           <motion.div
             className="flex items-center text-gray-700 mb-4 text-base md:text-lg font-medium"
             initial={{opacity: 0, y: 10}}
@@ -403,7 +411,6 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
 
           <div className="border-b border-gray-200 mb-6"></div>
 
-          {/* Host Info Section */}
           <motion.div
             className="flex items-center gap-4 mb-4"
             initial={{opacity: 0, y: 10}}
@@ -411,7 +418,6 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
             transition={{duration: 0.4, delay: 0.6}}
           >
             <div className="flex items-center gap-3">
-              {/* Avatar inisial dinamis */}
               <div
                 className="w-12 h-12 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center text-primary font-bold text-lg select-none"
                 style={{minWidth: 48, minHeight: 48}}
@@ -436,9 +442,8 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
             </button>
           </motion.div>
 
-          {/* Garis pembatas */}
           <div className="border-b border-gray-200 mb-6"></div>
-          {/* Detail */}
+
           <motion.div
             className="mb-6"
             initial={{opacity: 0, y: 10}}
@@ -494,9 +499,9 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
               )}
             </div>
           </motion.div>
-          {/* Garis pembatas setelah deskripsi */}
+
           <div className="border-b border-gray-200 mb-6"></div>
-          {/* Fasilitas Properti */}
+
           <motion.div
             className="mb-8"
             initial={{opacity: 0, y: 10}}
@@ -562,7 +567,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
             </div>
           </motion.div>
         </motion.div>
-        {/* Kanan: Booking Box */}
+
         <motion.div
           className="w-full lg:w-1/3"
           initial={{opacity: 0, x: 40}}
@@ -570,7 +575,6 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
           transition={{duration: 0.5, delay: 0.25, ease: 'easeOut'}}
         >
           <div className="sticky top-32 bg-white rounded-2xl shadow-xl p-6 space-y-6 border border-gray-200">
-            {/* Grouped Durasi & Jumlah Tamu Dropdown */}
             <div className="mb-2">
               <div className="rounded-t-xl border border-b-0 border-gray-200">
                 <div className="relative">
@@ -583,7 +587,7 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
                   />
                 </div>
               </div>
-              {/* Garis pembatas tipis antara dua dropdown */}
+
               <div className="border-t border-gray-200 mx-4" />
               <div className="rounded-b-xl border border-t-0 border-gray-200">
                 <div className="relative">
@@ -600,11 +604,8 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
                 </div>
               </div>
             </div>
-            {/* Jarak antar dropdown dan garis pembatas diperkecil */}
             <div className="h-2" />
-            {/* Garis pembatas lebih tipis dan warna sama seperti garis lain */}
             <div className="border-t border-gray-200" />
-            {/* Jarak antara garis pembatas dan harga total diperkecil */}
             <div className="pt-2">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-semibold text-gray-700">Harga Total</span>
@@ -617,7 +618,6 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
                   className="w-full bg-primary text-white py-3 rounded-xl font-semibold text-lg shadow-lg hover:brightness-110 transition"
                   onClick={() => {
                     setPendingChatMsg('Permisi kak, aku ingin pesan untuk durasi lain');
-                    // Buka floating chat dengan pesan siap dikirim
                     document.getElementById('floating-chat-btn')?.click();
                   }}
                 >
@@ -630,16 +630,12 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
               )}
             </div>
           </div>
-          {/* Tampilkan chat jika showChat true */}
           {showChat && (
             <div
               className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40"
               onClick={() => setShowChat(false)}
             >
               <div onClick={(e) => e.stopPropagation()}>
-                {/* Import dan render FloatingChat di sini */}
-                {/* Contoh: */}
-                {/* <FloatingChat /> */}
                 <div className="bg-white rounded-2xl shadow-xl p-4">
                   <p>Chat host di sini (integrasikan komponen FloatingChat.js sesuai kebutuhan)</p>
                 </div>
@@ -648,7 +644,6 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
           )}
         </motion.div>
       </motion.div>
-      {/* Tambahkan FloatingChat di sini agar selalu muncul di pojok kanan bawah */}
       <FloatingChat
         userType="guest"
         pendingMessage={pendingChatMsg}
@@ -658,13 +653,13 @@ Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. 
   );
 }
 
-// Tambahkan komponen dropdown custom di bawah export default:
 function CustomDurasiDropdown({value, onChange, customClass = '', labelHidden = false}) {
   const [open, setOpen] = useState(false);
   const options = [
     {value: '3', label: '3 Hari'},
     {value: '7', label: '1 Minggu'},
     {value: '14', label: '2 Minggu'},
+    {value: '21', label: '3 Minggu'},
     {value: 'custom', label: 'Durasi lain (hubungi host)'},
   ];
   const selected = options.find((opt) => opt.value === value);

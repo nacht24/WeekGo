@@ -9,9 +9,7 @@ export default function PropertyCard({property}) {
   const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
 
-  // Ambil harga min dan max dari property
-  // Pastikan property.price3Days, property.price1Week, property.price2Weeks ada dan bertipe number/string angka
-  const prices = [Number(property.price3Days || 0), Number(property.price1Week || 0), Number(property.price2Weeks || 0)].filter(Boolean);
+  const prices = [Number(property.price3Days || 0), Number(property.price1Week || 0), Number(property.price2Weeks || 0), Number(property.price3Weeks || 0)].filter(Boolean);
 
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);

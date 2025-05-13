@@ -44,8 +44,8 @@ export default function BottomFilterBar({
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeout = useRef(null);
 
-  const minPrice = 0;
-  const maxPrice = 2000000;
+  const minPrice = 100000;
+  const maxPrice = 4000000;
 
   const handleSearch = (e) => {
     setSearch(e.target.value);

@@ -15,6 +15,7 @@ const featuredProperties = [
 		price3Days: 500000,
 		price1Week: 1200000,
 		price2Weeks: 2000000,
+		location: 'Bali',
 	},
 	{
 		id: 2,
@@ -24,6 +25,7 @@ const featuredProperties = [
 		price3Days: 350000,
 		price1Week: 900000,
 		price2Weeks: 1600000,
+		location: 'Jakarta Selatan',
 	},
 	{
 		id: 3,
@@ -33,6 +35,7 @@ const featuredProperties = [
 		price3Days: 400000,
 		price1Week: 1250000,
 		price2Weeks: 2100000,
+		location: 'Surabaya',
 	},
 	{
 		id: 4,
@@ -42,6 +45,7 @@ const featuredProperties = [
 		price3Days: 250000,
 		price1Week: 700000,
 		price2Weeks: 1200000,
+		location: 'Depok',
 	},
 	{
 		id: 5,
@@ -51,6 +55,7 @@ const featuredProperties = [
 		price3Days: 300000,
 		price1Week: 1100000,
 		price2Weeks: 1800000,
+		location: 'Yogyakarta',
 	},
 	{
 		id: 6,
@@ -60,6 +65,97 @@ const featuredProperties = [
 		price3Days: 450000,
 		price1Week: 1350000,
 		price2Weeks: 2200000,
+		location: 'Bandung',
+	},
+	{
+		id: 7,
+		name: 'Apartemen Mewah BSD City',
+		image: '/images/home.avif',
+		rating: '4.77',
+		price3Days: 380000,
+		price1Week: 980000,
+		price2Weeks: 1700000,
+		location: 'Tangerang',
+	},
+	{
+		id: 8,
+		name: 'Homestay Dekat Malioboro',
+		image: '/images/home.avif',
+		rating: '4.65',
+		price3Days: 270000,
+		price1Week: 800000,
+		price2Weeks: 1400000,
+		location: 'Yogyakarta',
+	},
+	{
+		id: 9,
+		name: 'Villa Puncak View Gunung',
+		image: '/images/home.avif',
+		rating: '4.90',
+		price3Days: 600000,
+		price1Week: 1500000,
+		price2Weeks: 2500000,
+		location: 'Bogor',
+	},
+	{
+		id: 10,
+		name: 'Rumah Minimalis Alam Sutera',
+		image: '/images/home.avif',
+		rating: '4.60',
+		price3Days: 320000,
+		price1Week: 900000,
+		price2Weeks: 1600000,
+		location: 'Tangerang',
+	},
+	{
+		id: 11,
+		name: 'Kost Putri Dekat UI',
+		image: '/images/home.avif',
+		rating: '4.50',
+		price3Days: 200000,
+		price1Week: 600000,
+		price2Weeks: 1100000,
+		location: 'Depok',
+	},
+	{
+		id: 12,
+		name: 'Apartment Green Pramuka',
+		image: '/images/home.avif',
+		rating: '4.40',
+		price3Days: 300000,
+		price1Week: 850000,
+		price2Weeks: 1550000,
+		location: 'Jakarta Pusat',
+	},
+	{
+		id: 13,
+		name: 'Guesthouse Dekat Pantai Sanur',
+		image: '/images/home.avif',
+		rating: '4.70',
+		price3Days: 350000,
+		price1Week: 950000,
+		price2Weeks: 1700000,
+		location: 'Bali',
+	},
+	{
+		id: 14,
+		name: 'Rumah Keluarga Cihampelas',
+		image: '/images/home.avif',
+		rating: '4.80',
+		price3Days: 420000,
+		price1Week: 1200000,
+		price2Weeks: 2100000,
+		location: 'Bandung',
+	},
+	{
+		id: 15,
+		name: 'Homestay Dekat Alun-Alun Batu',
+		image: '/images/home.avif',
+		rating: '4.68',
+		price3Days: 280000,
+		price1Week: 750000,
+		price2Weeks: 1300000,
+		location: 'Malang',
 	},
 ];
 
@@ -67,6 +163,7 @@ export default function Home() {
 	const [search, setSearch] = useState('');
 	const [price, setPrice] = useState([0, 2200000]);
 	const [rating, setRating] = useState('');
+	const [location, setLocation] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -74,13 +171,16 @@ export default function Home() {
 		return () => clearTimeout(t);
 	}, []);
 
+	const locations = [...new Set(featuredProperties.map((p) => p.location))];
+
 	const filtered = featuredProperties.filter((p) => {
 		const minPrice = Math.min(p.price3Days, p.price1Week, p.price2Weeks);
 		const maxPrice = Math.max(p.price3Days, p.price1Week, p.price2Weeks);
 		const matchName = p.name.toLowerCase().includes(search.toLowerCase());
 		const matchPrice = maxPrice >= price[0] && minPrice <= price[1];
 		const matchRating = rating ? Number(p.rating) >= Number(rating) : true;
-		return matchName && matchPrice && matchRating;
+		const matchLocation = location ? p.location === location : true;
+		return matchName && matchPrice && matchRating && matchLocation;
 	});
 
 	if (isLoading) return <PageSkeleton />;
@@ -126,6 +226,8 @@ export default function Home() {
 				onSearch={setSearch}
 				onPriceChange={setPrice}
 				onRatingChange={setRating}
+				locations={locations}
+				onLocationChange={setLocation}
 			/>
 		</main>
 	);

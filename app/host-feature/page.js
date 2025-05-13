@@ -51,7 +51,7 @@ export default function HostFeaturePage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="w-full max-w-6xl bg-white rounded-xl shadow-lg flex flex-col md:flex-row gap-8 p-6">
+      <div className="w-full max-w-6xl bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col md:flex-row gap-8 p-6">
         {/* KIRI */}
         <div className="md:w-1/2 w-full">
           <h2 className="text-2xl font-semibold mb-4">Foto Properti</h2>
@@ -103,9 +103,9 @@ export default function HostFeaturePage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
                 { icon: <FaUserFriends />, key: 'Guest', label: 'Guest' },
-                { icon: <FaDoorOpen />, key: 'BedRoom', label: 'Bed Room' },
+                { icon: <FaDoorOpen />, key: 'BedRoom', label: 'Room' },
                 { icon: <FaBed />, key: 'Bed', label: 'Bed' },
-                { icon: <FaBath />, key: 'BathRoom', label: 'Bath Room' },
+                { icon: <FaBath />, key: 'BathRoom', label: 'Bath' },
               ].map(({ icon, key, label }) => (
                 <div
                   key={key}
@@ -127,22 +127,35 @@ export default function HostFeaturePage() {
               ))}
             </div>
           </div>
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            style={
+              isSubmitting
+                ? {}
+                : { backgroundColor: '#00B5E2' }
+            }
+            className={`w-full py-3 mt-6 rounded-md text-white font-semibold transition duration-200 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'hover:brightness-110'
+              }`}
+          >
+            {isSubmitting ? 'Menyimpan...' : 'Daftarkan Properti'}
+          </button>
         </div>
 
         {/* KANAN */}
-        <div className="md:w-1/2 w-full space-y-6">
-          <div>
+        <div className="md:w-1/2 w-full space-y-6 border border-gray-200 rounded-xl shadow-md p-6 relative">
+          <div className="pb-4 border-b border-gray-200">
             <label className="block font-semibold text-lg mb-2">Nama Properti</label>
             <input
               type="text"
-              placeholder="Contoh: Villa Private Pool, Bali"
+              placeholder="Contoh: Villa Private Pool"
               className="w-full border border-gray-300 rounded-md p-3"
               value={propertyName}
               onChange={(e) => setPropertyName(e.target.value)}
             />
           </div>
 
-          <div>
+          <div className="pb-4 border-b border-gray-200">
             <label className="block font-semibold text-lg mb-2">Alamat Lengkap</label>
             <textarea
               rows={2}
@@ -164,8 +177,8 @@ export default function HostFeaturePage() {
             <span>{isActive ? 'Aktif (Tampil Publik)' : 'Nonaktif (Disembunyikan)'}</span>
           </div>
 
-          <div>
-            <label className="block font-semibold text-lg mb-2">Harga per Durasi</label>
+          <div className="pb-4 border-b border-gray-200">
+            <label className="block font-semibold text-lg mb-2">Harga Sewa</label>
             <div className="grid grid-cols-2 gap-4">
               {[
                 { label: '3 Hari', key: '3hari' },
@@ -178,7 +191,9 @@ export default function HostFeaturePage() {
                   <input
                     type="number"
                     placeholder="Rp"
-                    className="w-full p-2 border border-gray-300 rounded-md mt-1"
+                    className="w-full p-2 border border-gray-300 rounded-md mt-1
+                   focus:outline-none focus:ring-2 focus:ring-[#00B5E2] focus:border-[#00B5E2]
+                   text-gray-700 focus:text-[#00B5E2] focus:font-semibold"
                     value={prices[key]}
                     onChange={(e) =>
                       setPrices((prev) => ({
@@ -192,7 +207,8 @@ export default function HostFeaturePage() {
             </div>
           </div>
 
-          {/* Fasilitas Tanpa Kotak */}
+
+          {/* Fasilitas */}
           <div>
             <label className="block font-semibold text-lg mb-2">Fasilitas</label>
             <div className="flex flex-wrap gap-4">
@@ -223,20 +239,6 @@ export default function HostFeaturePage() {
               ))}
             </div>
           </div>
-
-          <button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            style={
-              isSubmitting
-                ? {}
-                : { backgroundColor: '#00B5E2' }
-            }
-            className={`w-full py-3 rounded-md text-white font-semibold transition duration-200 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'hover:brightness-110'
-              }`}
-          >
-            {isSubmitting ? 'Menyimpan...' : 'Simpan Properti'}
-          </button>
         </div>
       </div>
 
